@@ -25,8 +25,8 @@ public class Orderdao {
 	    return;
 	  }
 	  @SuppressWarnings("unchecked")
-	public List<Item> getAll() {
-		    return getSession().createQuery("from Shipping").list();
+	public List<Order> getAll() {
+		    return getSession().createQuery("from Order").list();//Order is the class not, not table name
 		  }
 	  
 }

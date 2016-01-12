@@ -31,14 +31,17 @@ public class BillService extends Thread{
 		super();
 	}
 	private float calculateTotalPrice(int orderId){
+		
+		logger.info("calculate order total price");
 		float total=0;
 		Order o = oc.getById(orderId);
 		List<OrderLine> its=o.getItems();
 		for(OrderLine it:its){
 			
 			long id=it.getItemId();
-			total=ic.getById(id).getPrice();
-			total=total*it.getCount();
+			float p =ic.getById(id).getPrice();
+			total += p*it.getCount();
+			logger.debug("item {} price is {}", id, p);
 		}
 		
 		return total;
@@ -49,7 +52,7 @@ public class BillService extends Thread{
 		Customer c = cc.getById(cid);
 		if ( c.getBalance()>=this.calculateTotalPrice(orderId))
 		{
-			logger.info("enough balance");
+			logger.info("enough balance {}", c.getBalance());
 			return true;
 			
 		}
@@ -74,7 +77,8 @@ public class BillService extends Thread{
 				if (msg.startsWith("Order create:"))
 				{
 					String id=msg.substring(msg.lastIndexOf(':')+1);
-					logger.info("recv order event,order id %s",id);
+					logger.info("recv order event,order id {}",id);
+					logger.info("debug print id{}",Integer.parseInt(id));
 					processBill(Integer.parseInt(id));
 				}
 				

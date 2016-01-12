@@ -24,12 +24,12 @@ public class OrderClient {
 	@Autowired
 	private DiscoveryClient discoveryClient;
 	public Order getById(long id){
-		List<ServiceInstance> instances = discoveryClient.getInstances("item");
+		List<ServiceInstance> instances = discoveryClient.getInstances("order");
 		String serviceIp = instances.get(0).getHost();
 		int servicePort = instances.get(0).getPort();
-		for (ServiceInstance instance:instances) {
-			logger.info("order service is {},order host is {}", instance.getServiceId(), instance.getHost());
-		}
+
+		//logger.info("order service is bill,order host is ");
+
 		Order[] o = restTemplate.getForObject("http://"+serviceIp+":"+servicePort+"/order/list", Order[].class);
 		return Arrays.asList(o).stream().filter(c->c.getId()==id).collect(Collectors.toList()).get(0);	
 		

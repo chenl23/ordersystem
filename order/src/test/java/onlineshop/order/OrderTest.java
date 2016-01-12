@@ -33,7 +33,7 @@ public class OrderTest {
 
 
 	@Test
-	public void testOderList() {
+	public void testOrderList() {
 		
 		
 	}
